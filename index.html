@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veterinaria Nieves</title>
+
+    <style>
+        /*--- ANIMACIONES ---*/
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes zoomFade {
+            from { opacity: 0; transform: scale(1.08); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slideDown {
+            from { top: -80px; }
+            to { top: 0; }
+        }
+
+    body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    position: relative;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Fondo desenfocado que llena toda la pantalla */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("fondoo.jpg") no-repeat center center;
+    background-size: cover;   /* Llenar sin espacios */
+    filter: blur(10px) brightness(0.8);
+    z-index: -2;
+}
+
+/* Imagen principal centrada SIN RECORTAR */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("fondoo.jpg") no-repeat center center;
+    background-size: contain;  /* Mostrar completa */
+    background-position: center;
+    z-index: -1;
+}
+
+
+        /* HEADER */
+        header {
+            width: 100%;
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            transition: 0.4s;
+            animation: slideDown 0.8s ease;
+        }
+
+        header.scrolled {
+            background: rgba(0,0,0,0.85);
+            padding: 8px 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        nav a {
+            color: whitesmoke;
+            text-decoration: none;
+            font-size: 25px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #3ba9f4;
+            transform: scale(1.1);
+        }
+
+        section {
+            padding: 130px 40px;
+            color: black;
+        }
+
+        /* TEXTO */
+        .contenedor-texto {
+            background: rgba(255,255,255,0.85);
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 850px;
+            margin: auto;
+            animation: fadeIn 1.2s ease;
+            font-size: 20px;
+        }
+
+        /* CARRUSEL */
+        .carrusel {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            border-radius: 20px;
+            border: 4px solid white;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .carrusel img {
+            width: 100%;
+            display: none;
+            transition: 0.3s;
+        }
+
+        .carrusel img.activa {
+            display: block;
+            animation: zoomFade 1s ease;
+        }
+
+        /* PRODUCTOS */
+        .grid-productos {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            width: 80%;
+            margin: auto;
+        }
+
+        .grid-productos img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 3px solid white;
+            transition: 0.4s;
+            animation: fadeIn 1s ease;
+        }
+
+        .grid-productos img:hover {
+            transform: scale(1.07);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            border-color: #00e1ff;
+        }
+
+        /*estilos formulario*/
+        /* Contenedor del formulario */
+#contactForm {
+    max-width: 600px;
+    margin: 20px auto;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.12);
+    font-family: "Poppins", sans-serif;
+}
+
+/* Título */
+h2 {
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+    font-size: 40px;
+    color: black;
+    margin-top: 15px;
+}
+
+/* Estilo general de los labels */
+#contactForm label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #2a6f97;
+    font-size: 20px;
+}
+
+/* Inputs y selects */
+#contactForm input[type="text"],
+#contactForm input[type="date"],
+#contactForm select,
+#contactForm textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #bcd0e7;
+    background: #f7fbff;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+/* Efecto al hacer clic o enfocar */
+#contactForm input:focus,
+#contactForm select:focus,
+#contactForm textarea:focus {
+    border-color: #2a6f97;
+    box-shadow: 0 0 5px rgba(42,111,151,0.3);
+    outline: none;
+}
+
+/* Textarea un poco más alto */
+#contactForm textarea {
+    height: 80px;
+    resize: vertical;
+}
+
+/* Botón */
+#contactForm button {
+    width: 100%;
+    background: #2a6f97;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Hover en el botón */
+#contactForm button:hover {
+    background: #1f5677;
+}
+
+/* ---------- FOOTER ---------- */
+.footer-app {
+  background: #f8f9fa;
+  color: #333;
+  padding: 3rem 1rem 1rem;
+  font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
+  border-top: 5px solid #FF6B6B;
+  position: relative;
+}
+
+.footer-app::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: repeating-linear-gradient(
+    45deg,
+    #4ECDC4,
+    #4ECDC4 10px,
+    #FFD166 10px,
+    #FFD166 20px
+  );
+}
+
+.footer-contenido {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: 2rem;
+}
+
+.footer-col {
+  flex: 1;
+  min-width: 250px;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease;
+}
+
+.footer-col:hover {
+  transform: translateY(-5px);
+}
+
+.footer-col h3 {
+  color: #FF6B6B;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-col h4 {
+  color: #4ECDC4;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid #FFD166;
+  padding-left: 10px;
+}
+
+.footer-col p {
+  line-height: 1.6;
+  margin-bottom: 0.8rem;
+  color: #666;
+}
+
+.footer-copy {
+  text-align: center;
+  padding: 1.5rem 0 0;
+  margin-top: 2rem;
+  color: #888;
+  font-size: 0.9rem;
+  position: relative;
+}
+
+.footer-copy::before {
+  content: "❤️";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+  .footer-contenido {
+    flex-direction: column;
+  }
+  
+  .footer-col {
+    width: 100%;
+  }
+}
+    </style>
+
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header id="header">
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="#productos">Productos</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+    </header>
+
+
+    <!-- INICIO -->
+    <section id="inicio">
+        <div class="contenedor-texto">
+            <center><h1>VETERINARIA NIEVES</h1></center>
+            <p>
+            “Vocación, compromiso y empatía definen a nuestro equipo en Veterinaria Nieves. 
+            Entendemos que cada animal es único y merece una atención especializada.”
+
+            Brindamos servicios médicos de la más alta calidad, con la garantía de que tratamos 
+            a cada paciente con dedicación y el respeto que le otorgaríamos a nuestra propia mascota.
+            </p>
+        </div>
+
+        <br><br>
+
+        <!-- CARRUSEL -->
+        <div class="carrusel">
+            <img class="activa" src="veterinaria1.jpg">
+            <img src="veterinaria2.jpg">
+            <img src="veterinaria3.jpg">
+            <img src="veterinaria4.jpg">
+            <img src="veterinaria5.jpg">
+            <img src="veterinaria6.jpg">
+        </div>
+    </section>
+
+
+    <!-- PRODUCTOS -->
+    <section id="productos">
+        <div class="contenedor-texto">
+            <h2>Productos</h2>
+            <p>Ofrecemos una gran variedad de productos como:</p>
+            <ul>
+                <li>Medicamentos (Antiparasitarios, Antibióticos, Analgésicos y antiinflamatorios)</li>
+                <li>Suplementos y vitaminas (Suplementos para articulaciones, Vitaminas para el pelaje y la piel, Suplementos probióticos)</li>
+                <li>Productos para la higiene y cuidado diario (Shampoos medicados, Soluciones para limpieza de oídos, Productos dentales)</li>
+                <li>Antiparasitarios externos e internos (Pipetas y collares antipulgas, Pastillas antiparasitarias)</li>
+                <li>Alimentos especiales para mascotas con necesidades médicas (Alimentos para mascotas con problemas renales, Alimentos para control de peso, Dietas hipoalergénicas)</li>
+            </ul>
+        </div>
+
+        <br><br>
+
+        <!-- GRID -->
+<div class="grid-productos">
+    <img src="medicinas-veterinarias1.jpg" class="zoom-img">
+    <img src="medicinas-veterinarias2.jpg" class="zoom-img">
+    <img src="vitaminas.jpg" class="zoom-img">
+    <img src="higiene.jpg" class="zoom-img">
+    <img src="antiparacitario.jpg" class="zoom-img">
+    <img src="alimentos.jpg" class="zoom-img">
+</div>
+
+<!-- CONTENEDOR DEL ZOOM -->
+<div id="zoomContainer">
+    <span id="cerrarZoom">✖</span>
+    <img id="zoomImg">
+</div>
+    </section>
+
+
+    <!-- SERVICIOS -->
+    <section id="servicios">
+        <div class="contenedor-texto">
+            <h2>Servicios</h2>
+           <p>Ofrecemos una gran variedad de servicios como:</p>
+            <ul>
+                <li>Exámenes físicos: Un chequeo completo es crucial para detectar problemas de salud antes de que se conviertan en condiciones serias.</li>
+                <li>Vacunación: Las vacunas son necesarias para proteger a tu mascota contra diversas enfermedades.</li>
+                <li>Tratamientos preventivos: tratamientos como desparasitaciones y profilaxis contra pulgas y garrapatas, los cuales son vitales para la salud general de tus mascotas.</li>
+                <li>Cirugías generales: Como la esterilización o castración, son muy comunes en las clínicas veterinarias y ayudan a controlar la población animal y prevenir ciertos problemas de salud.</li>
+                <li>Procedimientos ortopédicos: Si tu mascota sufre de lesiones o enfermedades en sus huesos o articulaciones, ofrecemos servicios de cirugía ortopédica para mejorar su calidad de vida.</li>
+                <li>Diagnóstico por imagen: contamos con tecnología avanzada para realizar radiografías, ultrasonidos y otras pruebas que ayudan a diagnosticar condiciones de salud.</li>
+                <li>Baño y grooming: servicios de baño y estética profesional para tu mascota, asegurando que luzca y se sienta bien.</li>
+                <li>Citas de emergencia: En caso de que una emergencia médica ocurra, tenemos servicios de atención 24/7, lo que es primordial para la salud de tu mascota.</li>
+            </ul>
+        </div>
+
+        <br><br>
+
+        <!-- GRID -->
+<div class="grid-productos">
+    <img src="servicio1.jpg" class="zoom-img">
+    <img src="servicio2.jpg" class="zoom-img">
+    <img src="servicio3.jpg" class="zoom-img">
+    <img src="servicio4.jpg" class="zoom-img">
+    <img src="servicio5.jpg" class="zoom-img">
+    <img src="servicio6.jpg" class="zoom-img">
+</div>
+
+<!-- CONTENEDOR DEL ZOOM -->
+<div id="zoomContainer">
+    <span id="cerrarZoom">✖</span>
+    <img id="zoomImg">
+</div>
+
+<style>
+    .grid-productos {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .grid-productos img {
+        width: 100%;
+        cursor: pointer;
+        border-radius: 10px;
+        transition: transform .2s;
+    }
+
+    .grid-productos img:hover {
+        transform: scale(1.05);
+    }
+
+    /* ZOOM */
+    #zoomContainer {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    #zoomContainer img {
+        max-width: 80%;
+        max-height: 80%;
+        border-radius: 10px;
+    }
+
+    #cerrarZoom {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 40px;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+    }
+</style>
+
+<script>
+    const images = document.querySelectorAll(".zoom-img");
+    const zoomContainer = document.getElementById("zoomContainer");
+    const zoomImg = document.getElementById("zoomImg");
+    const cerrar = document.getElementById("cerrarZoom");
+
+    images.forEach(img => {
+        img.addEventListener("click", () => {
+            zoomImg.src = img.src;
+            zoomContainer.style.display = "flex";
+        });
+    });
+
+    cerrar.addEventListener("click", () => {
+        zoomContainer.style.display = "none";
+    });
+</script>
+
+    </section>
+
+
+    <!-- CONTACTO -->
+<section id="contacto">
+<form id="contactForm">
+    <h2>Contacto</h2>
+    
+    <label>Nombre del dueño:</label>
+    <input type="text" id="nombre" required>
+
+    <label>Nombre de la mascota:</label>
+    <input type="text" id="mascota" required>
+
+    <label>Tipo de mascota:</label>
+    <select id="tipo" required>
+        <option value="Perro">Perro</option>
+        <option value="Gato">Gato</option>
+        <option value="Ave">Ave</option>
+        <option value="Conejo">Conejo</option>
+        <option value="Reptil">Reptil</option>
+        <option value="Otro">Otro</option>
+    </select>
+
+    <label>Servicio que necesita:</label>
+    <select id="servicio" required>
+        <option value="Exámenes físicos">Exámenes físicos</option>
+        <option value="Vacunación">Vacunación</option>
+        <option value="Tratamientos preventivos">Tratamientos preventivos</option>
+        <option value="Cirugías generales">Cirugías generales</option>
+        <option value="Procedimientos ortopédicos">Procedimientos ortopédicos</option>
+        <option value="Diagnóstico por imagen">Diagnóstico por imagen</option>
+        <option value="Baño y grooming">Baño y grooming</option>
+        <option value="Consultas de emergencia">Consultas de emergencia</option>
+    </select>
+
+    <label>Fecha deseada:</label>
+    <input type="date" id="fecha" required>
+
+    <label>Hora deseada:</label>
+    <select id="hora" required>
+        <option value="">Selecciona una fecha primero</option>
+    </select>
+
+    <label>Mensaje adicional:</label>
+    <textarea id="mensaje"></textarea>
+
+    <button type="submit">Reservar cita</button>
+</form>
+</section>
+
+<script>
+const horaSelect = document.getElementById("hora");
+const fechaInput = document.getElementById("fecha");
+
+// Horario laboral (cada 1 hora)
+const horasTrabajo = [
+  "09:00", "10:00", "11:00", "12:00",
+  "13:00", "14:00", "15:00", "16:00", "17:00"
+];
+
+// Cuando el usuario selecciona una fecha
+fechaInput.addEventListener("change", function() {
+  
+  horaSelect.innerHTML = ""; // Limpia las horas
+
+  // ⚠ Aquí después conectarás tu backend (PHP + MySQL)
+  // por ahora asumimos que no hay horas ocupadas
+
+  // Llenamos el select con todas las horas
+  horasTrabajo.forEach(hora => {
+    const option = document.createElement("option");
+    option.value = hora;
+    option.textContent = hora;
+    horaSelect.appendChild(option);
+  });
+});
+
+// ENVIAR FORMULARIO
+document.getElementById("contactForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const datos = new FormData(this);
+
+    fetch("save.php", {
+        method: "POST",
+        body: datos
+    })
+    .then(response => response.text())
+    .then(r => {
+        if (r === "ocupado") {
+            alert("⚠ La fecha y hora seleccionadas ya están ocupadas.");
+            return;
+        }
+
+        // Tu número de WhatsApp
+        const telefono = "528138824617";
+
+        const texto = `
+Nueva cita:
+• Nombre: ${datos.get("nombre")}
+• Mascota: ${datos.get("mascota")}
+• Tipo: ${datos.get("tipo")}
+• Servicio: ${datos.get("servicio")}
+• Fecha: ${datos.get("fecha")}
+• Hora: ${datos.get("hora")}
+• Mensaje adicional: ${datos.get("mensaje")}
+        `;
+
+        window.open("https://wa.me/" + telefono + "?text=" + encodeURIComponent(texto));
+        alert("✔ Cita registrada correctamente");
+    });
+});
+</script>
+    </div>
+</section>
+
+
+    <!-- SCRIPT DEL CARRUSEL + EFECTO HEADER -->
+    <script>
+        let index = 0;
+        const imagenes = document.querySelectorAll(".carrusel img");
+
+        function cambiarImagen() {
+            imagenes[index].classList.remove("activa");
+            index = (index + 1) % imagenes.length;
+            imagenes[index].classList.add("activa");
+        }
+        setInterval(cambiarImagen, 3000);
+
+        // Header animado al hacer scroll
+        window.addEventListener("scroll", function() {
+            const header = document.getElementById("header");
+            if (window.scrollY > 80) {
+                header.classList.add("scrolled");
+            } else {
+                header.classList.remove("scrolled");
+            }
+        });
+    </script>
+
+    <!-- -------------------- FOOTER -------------------- -->
+    <footer class="footer-app">
+  <div class="footer-contenido">
+
+    <!-- Nombre y descripción -->
+    <div class="footer-col">
+      <h3>🐾 Veterinaria Nieves</h3>
+      <p>
+        Plataforma dedicada a cuidar y curar a tu mascota
+        con un trato de mucho amor.
+      </p>
+    </div>
+
+    <!-- Contacto -->
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <p>📍 Tulcingo de Valle, calle las flores #45, Puebla México</p>
+      <p>📧 contacto@veterinarianieves.com</p>
+      <p>📞 +52 8138824617</p>
+    </div>
+
+  </div>
+
+  <!-- Footer copy -->
+  <div class="footer-copy">
+    © 2025 Veterinaria Nieves | Todos los derechos reservados
+  </div>
+</footer>
+
+</body>
+</html>
